@@ -6,16 +6,16 @@ You can upload images and it will return an image with emojis as pixels
 ### Frontend
 To start the frontend use the following commands from the root directory
 
-```cd frontend````
+```cd frontend```
 
 ```npm start```
 
 ### Backend
 To start the backend use the following commands from the root directory
 
-```cd backend````
+```cd backend```
 
-```node app.js``` or ```nodemon app.js````
+```node app.js``` or ```nodemon app.js```
 
 !OBS!
 
