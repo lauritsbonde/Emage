@@ -20,8 +20,8 @@ app.get('/', (req, res) => {
 	res.send('Hello World!');
 });
 
-const path1 = './emojiLookup/blueLessThan131.json';
-const path2 = './emojiLookup/blueGreaterThan130.json';
+const path1 = './lookup/blueLessThan131.json';
+const path2 = './lookup/blueGreaterThan130.json';
 
 try {
 	if (!fs.existsSync(path1)) {

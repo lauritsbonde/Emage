@@ -42,7 +42,7 @@ function map(bigBlue) {
 		}
 	}
 	const finalPath = bigBlue ? 'blueGreaterThan130.json' : 'blueLessThan131.json';
-	fs.writeFileSync('./emojiLookup/' + finalPath, JSON.stringify(colorMap));
+	fs.writeFileSync('./lookup/' + finalPath, JSON.stringify(colorMap));
 }
 
 //find the closest color in the emojiMap - linear search on unsorted elements
