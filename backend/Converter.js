@@ -16,8 +16,8 @@ const quality = 1; //lower is better
 // Time: 86ms - quality: 3 - looks allright
 
 // this things makes starting the server a little slow, but worth it
-const lowBluesRaw = fs.readFileSync('./emojiLookup/blueLessThan131.json');
-const highBluesRaw = fs.readFileSync('./emojiLookup/blueGreaterThan130.json');
+const lowBluesRaw = fs.readFileSync('./lookup/blueLessThan131.json');
+const highBluesRaw = fs.readFileSync('./lookup/blueGreaterThan130.json');
 
 const lowBlues = JSON.parse(lowBluesRaw);
 const highBlues = JSON.parse(highBluesRaw);
