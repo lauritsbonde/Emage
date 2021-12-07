@@ -27,6 +27,9 @@ function map(bigBlue) {
 			g = 0;
 			b++;
 		}
+		if (emoji) {
+			colorMap[hex] = emoji;
+		}
 		if (b > 255) {
 			b = 0;
 			break;
@@ -34,11 +37,8 @@ function map(bigBlue) {
 		if (!bigBlue && b > 131) {
 			break;
 		}
-		if (emoji) {
-			colorMap[hex] = emoji;
-		}
 		if (i % 10000 === 0) {
-			console.log(i.toLocaleString(), '/', (255 * 255 * (bigBlue ? 255 - 130 : 131)).toLocaleString(), 'color r:', r, 'g:', g, 'b', b, 'emoji:', emoji);
+			console.log(i.toLocaleString(), '/', (255 * 255 * (bigBlue ? 255 - 129 : 131)).toLocaleString(), 'color r:', r, 'g:', g, 'b', b, 'hex', hex, 'emoji:', emoji);
 		}
 	}
 	const finalPath = bigBlue ? 'blueGreaterThan130.json' : 'blueLessThan131.json';

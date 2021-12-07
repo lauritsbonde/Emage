@@ -22,9 +22,10 @@ const highBluesRaw = fs.readFileSync('./lookup/blueGreaterThan130.json');
 const lowBlues = JSON.parse(lowBluesRaw);
 const highBlues = JSON.parse(highBluesRaw);
 
+console.log(Object.keys(highBlues)[Object.keys(highBlues).length - 1]);
+
 async function convert(imagePath) {
 	return new Promise(async (resolve, reject) => {
-		const start = Date.now();
 		const emojiImage = [];
 		await Jimp.read(await imagePath, (err, image) => {
 			if (err) {
@@ -40,15 +41,21 @@ async function convert(imagePath) {
 					if (pixel.b < 131) {
 						row.push(lowBlues[hex]);
 					} else {
+						if (highBlues[hex] == null) {
+							console.log(hex);
+						}
 						row.push(highBlues[hex]);
 					}
 				}
 				emojiImage.push(row);
 			}
-			const end = Date.now();
 			resolve(emojiImage);
 		});
 	});
+}
+
+function rgbaToHex(r, g, b) {
+	return '' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 
 module.exports = convert;

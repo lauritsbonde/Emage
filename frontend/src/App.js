@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import EmojiImage from './EmojiImage';
+import appStyle from './Styles/app.module.css';
 
 function App() {
 	const [image, setImage] = useState(null);
@@ -42,12 +43,12 @@ function App() {
 	};
 
 	return (
-		<div className="App" style={{ textAlign: 'center' }}>
+		<div style={{ textAlign: 'center', backgroundColor: backgroundColor }}>
 			<h1>Image to emojiImage</h1>
-			<div style={{ display: 'flex', width: '99vw', justifyContent: 'space-evenly' }}>
-				<form onSubmit={uploadImage}>
+			<div className={appStyle.app}>
+				<form onSubmit={uploadImage} className={appStyle.imageUpload}>
 					<input type="file" onChange={(event) => setImage(event.target.files[0])} name="image" />
-					<button type="submit">Upload</button>
+					<input type="submit" value="Upload image" />
 				</form>
 				{image && <img src={URL.createObjectURL(image)} alt="uploaded" />}
 				<div>
