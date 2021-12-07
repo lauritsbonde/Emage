@@ -29,3 +29,4 @@ jobs:
         REPO: self
         BRANCH: heroku
         FOLDER: backend
+        GITHUB_TOKEN: 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
