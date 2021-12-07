@@ -43,15 +43,15 @@ function App() {
 	};
 
 	return (
-		<div style={{ textAlign: 'center', backgroundColor: backgroundColor }}>
+		<div style={{ textAlign: 'center' }}>
 			<h1>Image to emojiImage</h1>
 			<div className={appStyle.app}>
 				<form onSubmit={uploadImage} className={appStyle.imageUpload}>
 					<input type="file" onChange={(event) => setImage(event.target.files[0])} name="image" />
 					<input type="submit" value="Upload image" />
 				</form>
-				{image && <img src={URL.createObjectURL(image)} alt="uploaded" />}
-				<div>
+				{image && <img src={URL.createObjectURL(image)} class={appStyle.image} alt="uploaded" />}
+				<div className={appStyle.inputs}>
 					<p>
 						Hex Background color: <input type="text" onChange={(e) => validateHex(e.target.value)} placeholder="#000000" />
 					</p>

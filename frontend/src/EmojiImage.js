@@ -8,7 +8,7 @@ const EmojiImage = ({ emojis, backgroundColor, scaling }) => {
 		ctx.fillStyle = backgroundColor;
 		ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 		ctx.fillStyle = '#000000';
-		const fontSize = ctx.canvas.width / (emojis[0].length * (10 / 10));
+		const fontSize = ctx.canvas.width / (emojis[0].length * (10 / 8));
 		ctx.font = fontSize + 'px serif';
 		for (let i = 0; i < emojis.length; i++) {
 			ctx.fillText(emojis[i], 0, i * scale.height);
@@ -40,6 +40,7 @@ const EmojiImage = ({ emojis, backgroundColor, scaling }) => {
 	return (
 		<div>
 			<canvas ref={canvasRef} width={emojis[0].length * scale.width + 'px'} height={emojis.length * scale.height + 'px'}></canvas>
+			<br />
 			<button
 				onClick={() => {
 					download();
