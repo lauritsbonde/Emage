@@ -42,6 +42,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({
 	storage: storage,
+	limits: { fileSize: 50000 },
+	onError: (err, next) => {
+		console.log('Error', err);
+	},
 	fileFilter: (req, file, cb) => {
 		if (file.mimetype == 'image/png' || file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg') {
 			cb(null, true);
@@ -54,6 +58,7 @@ const upload = multer({
 
 app.post('/convert', upload.single('image'), async (req, res) => {
 	const file = req.file;
+	console.log(file);
 	if (file === undefined) {
 		res.status(400).json({ success: false, msg: 'No file uploaded' });
 	} else {
