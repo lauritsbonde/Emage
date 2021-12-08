@@ -40,8 +40,6 @@ app.get('/makeLookUp', (req, res) => {
 });
 // ssh key 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
 //convert has to be required after the files are made
-const convert = require('./Converter');
-
 const DIR = './public/uploads';
 
 const storage = multer.diskStorage({
@@ -67,6 +65,7 @@ const upload = multer({
 });
 
 app.post('/convert', upload.single('image'), async (req, res) => {
+	const convert = require('./Converter');
 	const file = req.file;
 	if (file === undefined) {
 		res.status(400).json({ success: false, msg: 'No file uploaded' });
