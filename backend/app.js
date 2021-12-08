@@ -4,6 +4,7 @@ const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const makeLookup = require('./makeLookups');
+let convert;
 
 const app = express();
 const port = process.env.PORT || 2020;
@@ -65,7 +66,9 @@ const upload = multer({
 });
 
 app.post('/convert', upload.single('image'), async (req, res) => {
-	const convert = require('./Converter');
+	if (convert === undefined) {
+		convert = require('./convert');
+	}
 	const file = req.file;
 	if (file === undefined) {
 		res.status(400).json({ success: false, msg: 'No file uploaded' });
