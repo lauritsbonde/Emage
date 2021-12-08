@@ -12,7 +12,7 @@ function App() {
 		event.preventDefault();
 		const formData = new FormData();
 		formData.append('image', image);
-		const fetchUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:2020/' : 'https://emagecreator.herokuapp.com/';
+		const fetchUrl = window.location.hostname === 'localhost' ? 'http://localhost:2020/' : 'https://emagecreator.herokuapp.com/';
 		fetch(fetchUrl + 'convert', {
 			method: 'POST',
 			headers: {
