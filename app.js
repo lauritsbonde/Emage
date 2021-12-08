@@ -4,7 +4,14 @@ const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const makeLookup = require('./makeLookups');
-let convert = undefined;
+const kdTree = require('./kdTree');
+const convert = require('./Converter');
+
+const mappedEmojis = require('./MappedEmojis');
+const keys = Object.keys(mappedEmojis);
+
+const startIndexes = { start: 0, end: keys.length - 1 };
+const root = kdTree.kdTree(startIndexes, keys, mappedEmojis);
 
 const app = express();
 const port = process.env.PORT || 2020;
@@ -15,7 +22,7 @@ app.use(
 		credentials: true, // <= Accept credentials (cookies) sent by the client
 	})
 );
-app.use(express.json()); //heroku test
+app.use(express.json());
 
 app.get('/', (req, res) => {
 	res.send('Hello World!');
@@ -39,7 +46,7 @@ app.get('/makeLookUp', (req, res) => {
 		res.send(err);
 	}
 });
-// ssh key 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
+
 //convert has to be required after the files are made
 const DIR = './public/uploads';
 
@@ -66,14 +73,11 @@ const upload = multer({
 });
 
 app.post('/convert', upload.single('image'), async (req, res) => {
-	if (convert === undefined) {
-		convert = require('./Converter');
-	}
 	const file = req.file;
 	if (file === undefined) {
 		res.status(400).json({ success: false, msg: 'No file uploaded' });
 	} else {
-		const emojis = await convert(file.path);
+		const emojis = await convert(file.path, root);
 		res.json({ success: true, emojis });
 	}
 });
