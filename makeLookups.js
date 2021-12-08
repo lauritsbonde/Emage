@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const mappedEmojis = require('./mappedEmojis');
+const mappedEmojis = require('./MappedEmojis');
 const emojiMap = mappedEmojis.mappedEmojis.emojiMap;
 
 function makeLookup(bigBlue) {
