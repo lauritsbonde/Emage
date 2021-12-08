@@ -35,7 +35,7 @@ app.get('/makeLookUp', (req, res) => {
 			res.send('You are good to go - lookups are made');
 		}
 	} catch (err) {
-		console.log(err);
+		res.send(err);
 	}
 });
 // ssh key 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
