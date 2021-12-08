@@ -58,7 +58,6 @@ const upload = multer({
 
 app.post('/convert', upload.single('image'), async (req, res) => {
 	const file = req.file;
-	console.log(file);
 	if (file === undefined) {
 		res.status(400).json({ success: false, msg: 'No file uploaded' });
 	} else {
