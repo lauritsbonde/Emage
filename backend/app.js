@@ -14,33 +14,30 @@ app.use(
 		credentials: true, // <= Accept credentials (cookies) sent by the client
 	})
 );
-app.use(express.json());
-
-//heroku test
-app.listen(port, () => {
-	console.log(`Example app listening at http://localhost:${port}`);
-});
+app.use(express.json()); //heroku test
 
 app.get('/', (req, res) => {
 	res.send('Hello World!');
 });
 
-const path1 = './lookup/blueLessThan131.json';
-const path2 = './lookup/blueGreaterThan130.json';
+app.get('/makeLookUp', (req, res) => {
+	const path1 = './lookup/blueLessThan131.json';
+	const path2 = './lookup/blueGreaterThan130.json';
 
-try {
-	if (!fs.existsSync(path1)) {
-		makeLookup(false);
+	try {
+		if (!fs.existsSync(path1)) {
+			makeLookup(false);
+		}
+		if (!fs.existsSync(path2)) {
+			makeLookup(true);
+		}
+		if (fs.existsSync(path1) && fs.existsSync(path2)) {
+			res.send('You are good to go - lookups are made');
+		}
+	} catch (err) {
+		console.log(err);
 	}
-	if (!fs.existsSync(path2)) {
-		makeLookup(true);
-	}
-	if (fs.existsSync(path1) && fs.existsSync(path2)) {
-		console.log('You are good to go - ✅');
-	}
-} catch (err) {
-	console.log(err);
-}
+});
 // ssh key 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
 //convert has to be required after the files are made
 const convert = require('./Converter');
