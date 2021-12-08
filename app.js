@@ -6,6 +6,9 @@ const fs = require('fs');
 const makeLookup = require('./makeLookups');
 
 //heroku test
+app.listen(port, () => {
+	console.log(`Example app listening at http://localhost:${port}`);
+});
 
 const app = express();
 const port = process.env.PORT || 2020;
