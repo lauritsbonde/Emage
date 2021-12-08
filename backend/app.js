@@ -3,7 +3,6 @@ const cors = require('cors');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-const makeLookup = require('./makeLookups');
 const kdTree = require('./kdTree');
 const convert = require('./Converter');
 
