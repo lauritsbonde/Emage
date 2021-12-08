@@ -1,30 +1,7 @@
 const Jimp = require('jimp');
-const fs = require('fs');
+const kdTree = require('./kdTree.js');
 
-const quality = 1; //lower is better
-// testimage times with linear serach:
-// a pattern emarged with even qualities the image is shit
-// Time: 28668ms - quality: 1
-// Time: 21427ms - quality: 2 - looks awfull
-// Time: 14390ms - quality: 3 - looks ok actually
-// Time: 10334ms - quality: 4 - shit again
-// Time: 7672ms - quality: 5 - looks ok
-
-// Using json files with all colors mapped to an emoji
-// Time: 73ms - quality: 1
-// Time: 74ms - quality: 2 - and is horrible
-// Time: 86ms - quality: 3 - looks allright
-
-// this things makes starting the server a little slow, but worth it
-const lowBluesRaw = fs.readFileSync('./lookup/blueLessThan131.json');
-const highBluesRaw = fs.readFileSync('./lookup/blueGreaterThan130.json');
-
-const lowBlues = JSON.parse(lowBluesRaw);
-const highBlues = JSON.parse(highBluesRaw);
-
-console.log(Object.keys(highBlues)[Object.keys(highBlues).length - 1]);
-
-async function convert(imagePath) {
+async function convert(imagePath, kdTreeRoot) {
 	return new Promise(async (resolve, reject) => {
 		const emojiImage = [];
 		await Jimp.read(await imagePath, (err, image) => {
@@ -37,15 +14,12 @@ async function convert(imagePath) {
 				let row = [];
 				for (let j = 0; j < width; j++) {
 					const pixel = Jimp.intToRGBA(image.getPixelColor(j, i));
-					const hex = rgbaToHex(Math.round(pixel.r / quality) * quality, Math.round(pixel.g / quality) * quality, Math.round(pixel.b / quality) * quality);
-					if (pixel.b < 131) {
-						row.push(lowBlues[hex]);
-					} else {
-						if (highBlues[hex] == null) {
-							console.log(hex);
-						}
-						row.push(highBlues[hex]);
+					const hex = rgbaToHex(pixel.r, pixel.g, pixel.b);
+					const closest = kdTree.search(kdTreeRoot, hex);
+					if (closest.value !== '🖱') {
+						console.log(closest);
 					}
+					row.push(closest.value);
 				}
 				emojiImage.push(row);
 			}
