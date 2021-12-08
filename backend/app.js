@@ -8,7 +8,7 @@ const makeLookup = require('./makeLookups');
 //heroku test
 
 const app = express();
-const port = 2020;
+const port = process.env.PORT || 2020;
 
 app.use(
 	cors({
