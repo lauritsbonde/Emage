@@ -16,9 +16,6 @@ async function convert(imagePath, kdTreeRoot) {
 					const pixel = Jimp.intToRGBA(image.getPixelColor(j, i));
 					const hex = rgbaToHex(pixel.r, pixel.g, pixel.b);
 					const closest = kdTree.search(kdTreeRoot, hex);
-					if (closest.value !== '🖱') {
-						console.log(closest);
-					}
 					row.push(closest.value);
 				}
 				emojiImage.push(row);
