@@ -12,7 +12,6 @@ const EmojiImage = ({ emojis, backgroundColor, scaling }) => {
 		ctx.font = fontSize + 'px serif';
 		for (let i = 0; i < emojis.length; i++) {
 			ctx.fillText(emojis[i], 0, i * scale.height);
-			console.log(emojis[i]);
 		}
 		ctx.fill();
 	};

@@ -13,7 +13,6 @@ function App() {
 		const formData = new FormData();
 		formData.append('image', image);
 		const fetchUrl = window.location.hostname === 'localhost' ? 'http://localhost:2020/' : 'https://emagecreator.herokuapp.com/';
-		console.log(fetchUrl, window.location.hostname);
 		fetch(fetchUrl + 'convert', {
 			method: 'POST',
 			headers: {

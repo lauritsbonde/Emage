@@ -8,7 +8,6 @@ function getAvgHex(color, total) {
 
 function analyzeEmojis() {
 	for (let i = 0; i < emojis.length; i++) {
-		console.log(emojis[i]);
 		let totalPixels = 0;
 		const colors = {
 			red: 0,
@@ -37,5 +36,4 @@ function analyzeEmojis() {
 
 		emojiMap['' + r + g + b] = emojis[i];
 	}
-	console.log(JSON.stringify({ emojiMap }) + '\n');
 }
