@@ -27,25 +27,6 @@ app.get('/', (req, res) => {
 	res.send('Hello World!');
 });
 
-app.get('/makeLookUp', (req, res) => {
-	const path1 = './lookup/blueLessThan131.json';
-	const path2 = './lookup/blueGreaterThan130.json';
-
-	try {
-		if (!fs.existsSync(path1)) {
-			makeLookup(false);
-		}
-		if (!fs.existsSync(path2)) {
-			makeLookup(true);
-		}
-		if (fs.existsSync(path1) && fs.existsSync(path2)) {
-			res.send('You are good to go - lookups are made');
-		}
-	} catch (err) {
-		res.send(err);
-	}
-});
-
 //convert has to be required after the files are made
 const DIR = './public/uploads';
 
