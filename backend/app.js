@@ -17,7 +17,7 @@ const port = process.env.PORT || 2020;
 
 app.use(
 	cors({
-		origin: 'http://localhost:3000',
+		origin: ['http://localhost:3000', 'https://lauritsbonde.github.io/Emage/'],
 		credentials: true, // <= Accept credentials (cookies) sent by the client
 	})
 );
