@@ -5,11 +5,6 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const makeLookup = require('./makeLookups');
 
-//heroku test
-app.listen(port, () => {
-	console.log(`Example app listening at http://localhost:${port}`);
-});
-
 const app = express();
 const port = process.env.PORT || 2020;
 
@@ -20,6 +15,11 @@ app.use(
 	})
 );
 app.use(express.json());
+
+//heroku test
+app.listen(port, () => {
+	console.log(`Example app listening at http://localhost:${port}`);
+});
 
 app.get('/', (req, res) => {
 	res.send('Hello World!');
