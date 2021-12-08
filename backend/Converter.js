@@ -1,5 +1,5 @@
 const Jimp = require('jimp');
-const kdTree = require('./kdTree.js');
+const kdTree = require('./kdtree.js');
 
 async function convert(imagePath, kdTreeRoot) {
 	return new Promise(async (resolve, reject) => {
