@@ -7,6 +7,7 @@ function App() {
 	const [emojiImage, setEmojiImage] = useState(null);
 	const [backgroundColor, setBackgroundColor] = useState('#fff');
 	const [scale, setScale] = useState(0.75);
+	const [emojiSize, setEmojiSize] = useState(4.5);
 
 	const uploadImage = (event) => {
 		event.preventDefault();
@@ -43,6 +44,12 @@ function App() {
 		}
 	};
 
+	const validateEmojiSize = (emojiSize) => {
+		if (emojiSize > 0 && emojiSize <= 40) {
+			setEmojiSize(emojiSize);
+		}
+	};
+
 	return (
 		<div style={{ textAlign: 'center' }}>
 			<h1>Image to emojiImage</h1>
@@ -53,15 +60,18 @@ function App() {
 				</form>
 				{image && <img src={URL.createObjectURL(image)} className={appStyle.image} alt="uploaded" />}
 				<div className={appStyle.inputs}>
-					<p>
+					<p className={appStyle.rightInput}>
 						Hex Background color: <input type="text" onChange={(e) => validateHex(e.target.value)} placeholder="#000000" />
 					</p>
-					<p>
+					<p className={appStyle.rightInput}>
 						Scale: <input type="number" onChange={(e) => validateScale(e.target.value)} placeholder="0.75" /> (0 - 1)
+					</p>
+					<p className={appStyle.rightInput}>
+						Emoji size: <input type="number" onChange={(e) => validateEmojiSize(e.target.value)} placeholder="4.5" /> (1 - 40)
 					</p>
 				</div>
 			</div>
-			{emojiImage && <EmojiImage emojis={emojiImage} backgroundColor={backgroundColor} scaling={scale} />}
+			{emojiImage && <EmojiImage emojis={emojiImage} backgroundColor={backgroundColor} scaling={scale} emojiSize={emojiSize} setEmojiSize={validateEmojiSize} />}
 		</div>
 	);
 }

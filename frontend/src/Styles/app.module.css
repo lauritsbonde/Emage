@@ -1,14 +1,14 @@
 .app {
 	background: rgb(107, 48, 116);
 	height: 10vh;
+	min-height: max-content;
 	background: linear-gradient(90deg, rgba(107, 48, 116, 0.76234243697479) 0%, rgba(107, 48, 116, 0.7651435574229692) 46%, rgba(134, 163, 195, 0.935171568627451) 100%);
 	width: 90%;
 	margin: 1% auto;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-evenly;
+	justify-content: space-between;
 	align-items: center;
-	padding: 1%;
 	box-sizing: border-box;
 	border: 2px solid var(--color-secondary);
 	border-radius: 10px;
@@ -29,7 +29,7 @@
 
 .imageUpload input {
 	width: 100%;
-	margin: 2% 0;
+	margin: 1% 0;
 }
 
 .image {
@@ -46,4 +46,8 @@
 
 .inputs {
 	width: 33%;
+}
+
+.rightInput {
+	margin: 1% 0;
 }

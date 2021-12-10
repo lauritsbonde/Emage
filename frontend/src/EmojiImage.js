@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 
-const EmojiImage = ({ emojis, backgroundColor, scaling }) => {
+const EmojiImage = ({ emojis, backgroundColor, scaling, emojiSize, setEmojiSize }) => {
 	const canvasRef = useRef(null);
 	const scale = { width: (window.innerWidth / emojis[0].length) * scaling, height: (window.innerHeight / emojis.length) * scaling };
 
@@ -8,8 +8,7 @@ const EmojiImage = ({ emojis, backgroundColor, scaling }) => {
 		ctx.fillStyle = backgroundColor;
 		ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 		ctx.fillStyle = '#000000';
-		const fontSize = ctx.canvas.width / (emojis[0].length * (10 / 8));
-		ctx.font = fontSize + 'px serif';
+		ctx.font = emojiSize + 'px serif';
 		for (let i = 0; i < emojis.length; i++) {
 			ctx.fillText(emojis[i], 0, i * scale.height);
 		}
@@ -27,13 +26,10 @@ const EmojiImage = ({ emojis, backgroundColor, scaling }) => {
 	useEffect(() => {
 		const canvas = canvasRef.current;
 		const context = canvas.getContext('2d');
-		let animationFrameId;
+		const fontSize = context.canvas.width / (emojis[0].length * (10 / 8));
+		setEmojiSize(fontSize);
 
 		draw(context);
-
-		return () => {
-			window.cancelAnimationFrame(animationFrameId);
-		};
 	});
 
 	return (
