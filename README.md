@@ -1,5 +1,6 @@
 # Emage
 You can upload images and it will return an image with emojis as pixels
+Link: https://lauritsbonde.github.io/Emage/
 
 ## How to
 
