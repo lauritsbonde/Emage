@@ -1,28 +1,104 @@
-// const test = {
-// 	111111: '◾',
-// 	303231: '🕶',
-// 	326855: '🇹🇲',
-// 	333334: '🏴',
-// 	363028: '💂🏿',
-// 	373636: '🖤',
-// 	386576: '🇨🇽',
-// 	388329: '🇨🇨',
-// 	397856: '🇹🇿',
-// 	403028: '✍🏿',
-// 	438778: '🇧🇸',
-// 	444444: '🕳',
-// 	445169: '🖲',
-// 	453730: '💆🏿',
-// };
-// const keys = Object.keys(test);
-// const indexes = { start: 0, end: keys.length - 1 };
-// const root = kdTree(indexes, keys, test);
+const test = {
+	111111: '◾',
+	303231: '🕶',
+	326855: '🇹🇲',
+	333334: '🏴',
+	363028: '💂🏿',
+	373636: '🖤',
+	386576: '🇨🇽',
+	388329: '🇨🇨',
+	397856: '🇹🇿',
+	403028: '✍🏿',
+	438778: '🇧🇸',
+	444444: '🕳',
+	445169: '🖲',
+	453730: '💆🏿',
+	464646: '🐾',
+	473931: '👦🏿',
+	474751: '🙏🏿',
+	475159: '🛴',
+	475376: '🇵🇳',
+	484848: '➕',
+	494332: '🎩',
+	494949: '➖',
+	505051: '🖥',
+	513168: '🇨🇰',
+	518152: '🇲🇷',
+	525356: '👮🏾',
+	525458: '🎥',
+	533165: '🇰🇾',
+	535456: '⛏',
+	536376: '🚲',
+	544036: '👌🏿',
+	547753: '🐊',
+	555354: '🏋🏿',
+	555549: '🌘',
+	574432: '🇱🇾',
+	593761: '🇹🇨',
+	594729: '👸🏿',
+	595550: '🤹🏿',
+	599377: '🇷🇼',
+	614331: '👧🏾',
+	615750: '🙋🏿',
+	626162: '🎬',
+	636263: '👮🏽',
+	648648: '🐢',
+	655042: '🦇',
+	655537: '🇻🇺',
+	658398: '🌏',
+	666461: '🇳🇦',
+	666766: '🎤',
+	674532: '🇲🇼',
+	675446: '🐗',
+	677278: '🚔',
+	688594: '🌍',
+	696767: '🦍',
+	697483: '🚝',
+	704549: '🕹',
+	706052: '🤹🏾',
+	706254: '⛹🏿',
+	709967: '🇬🇦',
+	713356: '🇱🇮',
+	716254: '🕵🏾',
+	716676: '🚶🏽',
+	718086: '🔊',
+	722928: '🇦🇴',
+	726081: '🇦🇸',
+	727169: '🗿',
+	736256: '🙇🏾',
+	736357: '👩🏻',
+	737679: '📹',
+	745745: '🤦🏾',
+	746756: '🐧',
+	767676: '📓',
+	769362: '🛣',
+	774831: '🥀',
+	776963: '🏋🏽',
+	777082: '🚶🏻',
+	777465: '🇵🇸',
+	777676: '🐺',
+	784768: '🤰🏾',
+	786669: '🇬🇲',
+	787571: '🦏',
+	787975: '👮🏼',
+	788075: '🚍',
+	806653: '🙋🏾',
+	807354: '🇲🇺',
+	817061: '🤹🏽',
+	823733: '💃🏻',
+	827268: '🙆🏾',
+	835436: '👶🏾',
+	837864: '🤽🏿',
+	838688: '🖨',
+};
+const keys = Object.keys(test);
+const root = kdTree(keys, test);
 
-function kdTree(indexes, keys, colorMap, depth = 0) {
-	if (indexes.start >= indexes.end) {
+function kdTree(keys, colorMap, depth = 0) {
+	if (keys.length === 0) {
 		return {
-			value: colorMap[keys[indexes.start]],
-			hexValue: keys[indexes.start],
+			value: colorMap[keys[0]],
+			hexValue: keys[0],
 			depth: depth,
 			left: null,
 			right: null,
@@ -39,19 +115,19 @@ function kdTree(indexes, keys, colorMap, depth = 0) {
 		return parseInt(a.substring(4, 6), 16) - parseInt(b.substring(4, 6), 16);
 	});
 
-	const medianIndex = Math.floor((indexes.start + indexes.end) / 2);
+	const medianIndex = Math.floor(sortedKeys.length / 2);
 	const medianKey = sortedKeys[medianIndex];
 	const medianValue = colorMap[medianKey];
 
-	const leftIndexes = { start: indexes.start, end: medianIndex - 1 };
-	const rightIndexes = { start: medianIndex + 1, end: indexes.end };
+	const leftKeys = sortedKeys.slice(0, medianIndex);
+	const rightKeys = sortedKeys.slice(medianIndex + 1);
 
 	const node = {
 		value: medianValue,
 		hexValue: medianKey,
 		depth: depth,
-		left: kdTree(leftIndexes, sortedKeys, colorMap, depth + 1),
-		right: kdTree(rightIndexes, sortedKeys, colorMap, depth + 1),
+		left: kdTree(leftKeys, colorMap, depth + 1),
+		right: kdTree(rightKeys, colorMap, depth + 1),
 		isLeaf: false,
 	};
 	return node;
@@ -66,15 +142,15 @@ function search(root, target) {
 
 //nearest neighbour search
 function nearestNeighbour(node, target, depth = 0) {
-	const distance = distanceTo(node.hexValue, target);
-	if (distance < best.distance) {
-		best = { value: node.value, hexValue: node.hexValue, distance: distance };
-	}
 	if (node.isLeaf) {
 		return;
 	}
 	const axis = depth % 3;
 	const medianKey = node.hexValue;
+	const distance = distanceTo(medianKey, target);
+	if (distance < best.distance) {
+		best = { value: node.value, hexValue: node.hexValue, distance: distance };
+	}
 
 	if (axis === 0) {
 		if (parseInt(target.substring(0, 2), 16) < parseInt(medianKey.substring(0, 2), 16)) {
@@ -88,8 +164,7 @@ function nearestNeighbour(node, target, depth = 0) {
 		} else {
 			return nearestNeighbour(node.right, target, depth + 1);
 		}
-	}
-	if (parseInt(target.substring(4, 6), 16) < parseInt(medianKey.substring(4, 6), 16)) {
+	} else if (parseInt(target.substring(4, 6), 16) < parseInt(medianKey.substring(4, 6), 16)) {
 		return nearestNeighbour(node.left, target, depth + 1);
 	} else {
 		return nearestNeighbour(node.right, target, depth + 1);
@@ -105,5 +180,9 @@ function distanceTo(color1, color2) {
 	const b2 = parseInt(color2.substring(4, 6), 16);
 	return Math.sqrt(Math.pow(r1 - r2, 2) + Math.pow(g1 - g2, 2) + Math.pow(b1 - b2, 2));
 }
+
+// const testColor = '445169';
+
+// console.log(search(root, testColor));
 
 module.exports = { kdTree, search };

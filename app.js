@@ -5,12 +5,12 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const kdTree = require('./kdtree');
 const convert = require('./Converter');
+const kdTree2 = require('./kdtree2');
 
 const mappedEmojis = require('./MappedEmojis');
 const keys = Object.keys(mappedEmojis);
 
-const startIndexes = { start: 0, end: keys.length - 1 };
-const root = kdTree.kdTree(startIndexes, keys, mappedEmojis);
+const root = kdTree.kdTree(keys, mappedEmojis);
 
 const app = express();
 const port = process.env.PORT || 2020;
