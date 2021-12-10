@@ -2,10 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
-const fs = require('fs');
 const kdTree = require('./kdtree');
 const convert = require('./Converter');
-const kdTree2 = require('./kdtree2');
 
 const mappedEmojis = require('./MappedEmojis');
 const keys = Object.keys(mappedEmojis);
