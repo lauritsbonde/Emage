@@ -60,7 +60,6 @@ const ImageCanvas: FC<ImageCanvasProps> = ({image, kdTree}) => {
 				const red = data[i];
 				const green = data[i + 1];
 				const blue = data[i + 2];
-				const alpha = data[i + 3];
 
 				const hex = rgbaToHex(red, green, blue);
 
@@ -84,7 +83,7 @@ const ImageCanvas: FC<ImageCanvasProps> = ({image, kdTree}) => {
 		image.onerror = () => {
 			console.error('Failed to load the image.');
 		};
-	}, [imageUrl]);
+	}, [imageUrl, kdTree]);
 
 	return (
 		<div className="relative max-w-full flex items-center justify-center">
