@@ -1,5 +1,5 @@
 import React, {useRef, useLayoutEffect, useState, FC, useEffect, RefObject} from 'react';
-import {Node, search} from '../utils/kdtree';
+import {search} from '../utils/kdtree';
 import EmojiImage from './EmojiImage';
 import {ReactCompareSlider} from 'react-compare-slider';
 import {useEmoji} from '../contexts/EmojiContext';
