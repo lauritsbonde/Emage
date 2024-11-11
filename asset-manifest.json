@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Emage/static/css/main.48f01dd0.css",
-    "main.js": "/Emage/static/js/main.39f2a547.js",
+    "main.js": "/Emage/static/js/main.c2fa9ecc.js",
     "index.html": "/Emage/index.html",
     "main.48f01dd0.css.map": "/Emage/static/css/main.48f01dd0.css.map",
-    "main.39f2a547.js.map": "/Emage/static/js/main.39f2a547.js.map"
+    "main.c2fa9ecc.js.map": "/Emage/static/js/main.c2fa9ecc.js.map"
   },
   "entrypoints": [
     "static/css/main.48f01dd0.css",
-    "static/js/main.39f2a547.js"
+    "static/js/main.c2fa9ecc.js"
   ]
 }
