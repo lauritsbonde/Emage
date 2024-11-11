@@ -53,6 +53,7 @@ const Sidebar: FC = () => {
 				<p className="text-secondary-content mb-2 text-lg">Upload an image and it will be converted to emojis!</p>
 				<input
 					type="file"
+					accept="image/*"
 					className="file-input file-input-bordered file-input-info w-full max-w-xs"
 					onChange={(e) => {
 						const file = e.target.files?.[0];
@@ -61,6 +62,7 @@ const Sidebar: FC = () => {
 						}
 					}}
 				/>
+				<p>* Smaller images give the best result, large images may take a while</p>
 				{file && (
 					<div className="mt-4">
 						<p className="text-secondary-content text-lg">The original image</p>
