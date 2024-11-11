@@ -101,9 +101,11 @@ const ImageCanvas: FC = () => {
 	};
 
 	return (
-		<div className="relative h-full mt-8 w-full flex flex-col pb-10 items-center">
+		<div className="relative h-full mt-8 w-full flex flex-col pb-10 items-center justify-between">
 			{/* Original image canvas */}
-			<div className="relative h-full mt-8 w-full">
+			{!image && !emojiImage && <p className="text-primary absolute text-xl top-[40%]">Upload an image and it will be converted to emojis!</p>}
+
+			<div className="relative mt-8 w-full h-full">
 				<div className={`${compareImages ? 'opacity-0' : 'opacity-1'} transition-all duration-500 ease-in-out absolute max-w-full max-h-full left-[25%]`}>
 					<EmojiImage emojis={emojiImage} ref={emojiCanvasRef} />
 				</div>
@@ -111,7 +113,8 @@ const ImageCanvas: FC = () => {
 					<ReactCompareSlider itemOne={<canvas ref={originalCanvasRef} />} itemTwo={<EmojiImage emojis={emojiImage} ref={emojiComparerRef} />} style={{width: '100%', height: '80dvh'}} />
 				</div>
 			</div>
-			<button className="btn btn-success max-w-56 px-8" onClick={download}>
+
+			<button className="btn btn-success max-w-56 px-8" onClick={download} disabled={!emojiImage}>
 				Download Emoji image
 			</button>
 		</div>
