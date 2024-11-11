@@ -1,12 +1,10 @@
-import React, {useRef, useEffect, useCallback, FC} from 'react';
+import React, {useEffect, useCallback, forwardRef, RefObject} from 'react';
 
 interface EmojiImageProps {
 	emojis: string[][] | null;
 }
 
-const EmojiImage: FC<EmojiImageProps> = ({emojis}) => {
-	const canvasRef = useRef<HTMLCanvasElement>(null);
-
+const EmojiImage = forwardRef<HTMLCanvasElement, EmojiImageProps>(({emojis}, ref) => {
 	const draw = useCallback(
 		(ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number, emojiSize: number) => {
 			if (!emojis) {
@@ -34,77 +32,45 @@ const EmojiImage: FC<EmojiImageProps> = ({emojis}) => {
 	);
 
 	const resizeCanvas = useCallback(() => {
-		const canvas = canvasRef.current;
-		if (canvas) {
-			const context = canvas.getContext('2d');
-			if (!context) {
-				return;
-			}
-
-			if (!emojis) {
+		const canvas = ref as RefObject<HTMLCanvasElement>;
+		if (canvas.current) {
+			const context = canvas.current.getContext('2d');
+			if (!context || !emojis) {
 				return;
 			}
 
 			const rows = emojis.length;
 			const columns = emojis[0].length;
 
-			// Calculate the ideal emoji size based on window dimensions and emoji grid
 			const windowRatio = window.innerWidth / window.innerHeight;
 			const emojiRatio = columns / rows;
 
 			let canvasWidth, canvasHeight;
 
 			if (windowRatio > emojiRatio) {
-				// Window is wider than emoji grid; base on height
 				canvasHeight = window.innerHeight * 0.8;
 				canvasWidth = canvasHeight * emojiRatio;
 			} else {
-				// Window is taller than emoji grid; base on width
 				canvasWidth = window.innerWidth;
 				canvasHeight = canvasWidth / emojiRatio;
 			}
 
-			canvas.width = canvasWidth;
-			canvas.height = canvasHeight;
+			canvas.current.width = canvasWidth;
+			canvas.current.height = canvasHeight;
 
 			const emojiSize = Math.min(canvasWidth / columns, canvasHeight / rows);
 
-			// Draw emojis on the canvas with the calculated emoji size
-			draw(context, canvas.width, canvas.height, emojiSize);
+			draw(context, canvasWidth, canvasHeight, emojiSize);
 		}
-	}, [draw, emojis]);
+	}, [draw, emojis, ref]);
 
-	// Initialize and resize the canvas on window resize
 	useEffect(() => {
 		resizeCanvas();
 		window.addEventListener('resize', resizeCanvas);
 		return () => window.removeEventListener('resize', resizeCanvas);
 	}, [resizeCanvas]);
 
-	// Download the canvas as PNG
-	const download = () => {
-		const link = document.createElement('a');
-		link.download = 'emoji.png';
-		if (!canvasRef.current) {
-			return;
-		}
-		link.href = canvasRef.current.toDataURL();
-		link.click();
-
-		link.remove();
-	};
-
-	return (
-		<div className="flex flex-col items-center mt-20 gap-5">
-			<canvas ref={canvasRef} className="max-w-full max-h-[80%]"></canvas>
-			{!emojis && <p className="text-lg">Upload an image to get started!</p>}
-			{emojis && (
-				<button className="btn btn-success" onClick={download}>
-					Download Image
-				</button>
-			)}
-		</div>
-	);
-};
+	return <canvas ref={ref} className="max-w-full"></canvas>;
+});
 
 export default EmojiImage;

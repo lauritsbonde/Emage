@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {EmojiProvider} from './contexts/EmojiContext';
 
 // Create a root element for React 18
 const rootElement = document.getElementById('root') as HTMLElement;
@@ -10,7 +11,9 @@ const root = ReactDOM.createRoot(rootElement);
 
 root.render(
 	<React.StrictMode>
-		<App />
+		<EmojiProvider>
+			<App />
+		</EmojiProvider>
 	</React.StrictMode>
 );
 

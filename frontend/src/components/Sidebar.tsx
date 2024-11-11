@@ -1,12 +1,9 @@
 import React, {FC, useEffect} from 'react';
 import {themeChange} from 'theme-change';
+import {useEmoji} from '../contexts/EmojiContext';
 
-interface SidebarProps {
-	image: File | null;
-	setImage: (image: File) => void;
-}
-
-const Sidebar: FC<SidebarProps> = ({image, setImage}) => {
+const Sidebar: FC = () => {
+	const {file, setFile, compareImages, setCompareImages} = useEmoji();
 	useEffect(() => {
 		themeChange(false);
 	}, []);
@@ -60,16 +57,22 @@ const Sidebar: FC<SidebarProps> = ({image, setImage}) => {
 					onChange={(e) => {
 						const file = e.target.files?.[0];
 						if (file) {
-							setImage(file);
+							setFile(file);
 						}
 					}}
 				/>
-				{image && (
+				{file && (
 					<div className="mt-4">
 						<p className="text-secondary-content text-lg">The original image</p>
-						<img src={URL.createObjectURL(image)} alt="Original" className="w-full" />
+						<img src={URL.createObjectURL(file)} alt="Original" className="w-full max-h-44 object-contain" />
 					</div>
 				)}
+			</div>
+			<div className="flex items-center">
+				<p className="text-secondary-content text-lg">Compare the image with the original</p>
+				<label className="cursor-pointer label">
+					<input type="checkbox" className="toggle toggle-lg toggle-success" onChange={(e) => setCompareImages(e.target.checked)} checked={compareImages} disabled={!file} />
+				</label>
 			</div>
 		</div>
 	);

@@ -1,18 +1,18 @@
-import React, {useRef, useLayoutEffect, useState, FC, useEffect} from 'react';
+import React, {useRef, useLayoutEffect, useState, FC, useEffect, RefObject} from 'react';
 import {Node, search} from '../utils/kdtree';
 import EmojiImage from './EmojiImage';
+import {ReactCompareSlider} from 'react-compare-slider';
+import {useEmoji} from '../contexts/EmojiContext';
 
 function rgbaToHex(r: number, g: number, b: number) {
 	return '' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 
-interface ImageCanvasProps {
-	image: File | null;
-	kdTree: Node;
-}
-
-const ImageCanvas: FC<ImageCanvasProps> = ({image, kdTree}) => {
-	const canvasRef = useRef<HTMLCanvasElement>(null);
+const ImageCanvas: FC = () => {
+	const {file: image, kdTree, compareImages} = useEmoji();
+	const originalCanvasRef = useRef<HTMLCanvasElement>(null);
+	const emojiCanvasRef = useRef<HTMLCanvasElement>(null);
+	const emojiComparerRef = useRef<HTMLCanvasElement>(null);
 	const [emojiImage, setEmojiImage] = useState<string[][] | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -27,16 +27,19 @@ const ImageCanvas: FC<ImageCanvasProps> = ({image, kdTree}) => {
 	}, [image]);
 
 	useLayoutEffect(() => {
-		const canvas = canvasRef.current;
+		const canvas = originalCanvasRef.current;
 		if (!canvas) {
+			console.error('Canvas not found');
 			return;
 		}
 		const ctx = canvas.getContext('2d');
 		if (!ctx) {
+			console.error('Canvas context not found');
 			return;
 		}
 
 		if (!imageUrl) {
+			console.error('Image URL not found');
 			return;
 		}
 
@@ -45,6 +48,7 @@ const ImageCanvas: FC<ImageCanvasProps> = ({image, kdTree}) => {
 		image.crossOrigin = 'Anonymous';
 
 		image.onload = () => {
+			console.log('Image loaded');
 			canvas.width = image.width;
 			canvas.height = image.height;
 
@@ -85,10 +89,31 @@ const ImageCanvas: FC<ImageCanvasProps> = ({image, kdTree}) => {
 		};
 	}, [imageUrl, kdTree]);
 
+	const download = () => {
+		const link = document.createElement('a');
+		link.download = 'emoji.png';
+		if (!(emojiCanvasRef as RefObject<HTMLCanvasElement>).current) {
+			return;
+		}
+		link.href = (emojiCanvasRef as RefObject<HTMLCanvasElement>).current!.toDataURL();
+		link.click();
+		link.remove();
+	};
+
 	return (
-		<div className="relative max-w-full flex items-center justify-center">
-			<canvas ref={canvasRef} className="max-w-full hidden" />
-			<EmojiImage emojis={emojiImage} />
+		<div className="relative h-full mt-8 w-full flex flex-col pb-10 items-center">
+			{/* Original image canvas */}
+			<div className="relative h-full mt-8 w-full">
+				<div className={`${compareImages ? 'opacity-0' : 'opacity-1'} transition-all duration-500 ease-in-out absolute max-w-full max-h-full left-[25%]`}>
+					<EmojiImage emojis={emojiImage} ref={emojiCanvasRef} />
+				</div>
+				<div className={`${compareImages ? 'opacity-1' : 'opacity-0'} transition-all duration-500 ease-in-out absolute max-w-full max-h-full left-[25%]`}>
+					<ReactCompareSlider itemOne={<canvas ref={originalCanvasRef} />} itemTwo={<EmojiImage emojis={emojiImage} ref={emojiComparerRef} />} style={{width: '100%', height: '80dvh'}} />
+				</div>
+			</div>
+			<button className="btn btn-success max-w-56 px-8" onClick={download}>
+				Download Emoji image
+			</button>
 		</div>
 	);
 };
